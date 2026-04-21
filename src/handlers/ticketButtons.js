@@ -46,7 +46,7 @@ async function checkTicketPermissionWithTimeout(interaction, client, actionLabel
     const context = await Promise.race([contextPromise, timeoutPromise]);
 
     if (!context.ticketData) {
-      return { success: false, error: 'Not a Ticket Channel', details: 'This action can only be used in a valid ticket channel.' };
+      return { success: false, error: 'Not a Ticket Channel', details: 'Thao tác này chỉ có thể được sử dụng trong kênh ticket ' };
     }
 
     const allowed = allowTicketCreator ? context.canCloseTicket : context.canManageTicket;
@@ -121,8 +121,8 @@ const createTicketHandler = {
         return await interaction.reply({
           embeds: [
             errorEmbed(
-              '🎫 Ticket Limit Reached',
-              `You have reached the maximum number of open tickets (${maxTicketsPerUser}).\n\nPlease close your existing tickets before creating a new one.\n\n**Current Tickets:** ${currentTicketCount}/${maxTicketsPerUser}`
+              '🎫 Ticket Đã Giới hạn',
+              `Bạn đã đạt đến số lượng tối đa mở tickets (${maxTicketsPerUser}).\n\nVui lòng đóng các yêu cầu hỗ trợ hiện có trước khi tạo yêu cầu hỗ trợ mới..\n\n**Current Tickets:** ${currentTicketCount}/${maxTicketsPerUser}`
             )
           ],
           flags: MessageFlags.Ephemeral
@@ -181,8 +181,8 @@ const createTicketModalHandler = {
       if (result.success) {
         await interaction.editReply({
           embeds: [successEmbed(
-            'Ticket Created',
-            `Your ticket has been created in ${result.channel}!`
+            'Ticket Đã Tạo',
+            `Ticket đã dược tạo bởi ${result.channel}!`
           )]
         });
       } else {
@@ -194,7 +194,7 @@ const createTicketModalHandler = {
     } catch (error) {
       logger.error('Error creating ticket:', error);
       await interaction.editReply({
-        embeds: [errorEmbed('Error', 'An error occurred while creating your ticket.')],
+        embeds: [errorEmbed('Error', 'Đã bị lỗi khi tạo ticket.')],
         flags: MessageFlags.Ephemeral
       });
     }
@@ -211,7 +211,7 @@ const closeTicketHandler = {
       const permissionCheck = await checkTicketPermissionWithTimeout(
         interaction,
         client,
-        'close this ticket',
+        'Đóng ticket',
         { allowTicketCreator: true },
         2000 // 2 second timeout for permission checks
       );
@@ -228,7 +228,7 @@ const closeTicketHandler = {
 
       const modal = new ModalBuilder()
         .setCustomId('ticket_close_modal')
-        .setTitle('Close Ticket');
+        .setTitle('Đóng Ticket');
 
       const reasonInput = new TextInputBuilder()
         .setCustomId('reason')
@@ -244,7 +244,7 @@ const closeTicketHandler = {
       // showModal must be called directly without defer
       await interaction.showModal(modal);
     } catch (error) {
-      logger.error('Error closing ticket:', error);
+      logger.error('Lỗi đóng ticket:', error);
 
       if (!interaction.replied && !interaction.deferred) {
         await interaction.reply({
@@ -491,8 +491,8 @@ const pinTicketHandler = {
 
         await interaction.editReply({
           embeds: [createEmbed({
-            title: '📌 Ticket Unpinned',
-            description: 'This ticket has been unpinned and moved back to normal position.',
+            title: '📌 Ghim Ticket',
+            description: 'Ticket này đã được gỡ ghim và chuyển về vị trí bình thường.',
             color: 0x95A5A6
           })],
           flags: MessageFlags.Ephemeral
@@ -514,8 +514,8 @@ const pinTicketHandler = {
 
         await interaction.editReply({
           embeds: [createEmbed({
-            title: '📌 Ticket Pinned',
-            description: 'This ticket has been pinned to the top of the category.',
+            title: '📌 Ghim Ticket',
+            description: 'Ticket này đã được ghim lên đầu danh mục.',
             color: 0x3498db
           })],
           flags: MessageFlags.Ephemeral
