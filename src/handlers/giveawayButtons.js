@@ -58,8 +58,8 @@ export const giveawayJoinHandler = {
                 return interaction.reply({
                     embeds: [
                         errorEmbed(
-                            'Giveaway Ended',
-                            'This giveaway has already ended.'
+                            'Giveaway Kết Thúc',
+                            'giveaway đã kết thúc rồi.'
                         )
                     ],
                     flags: MessageFlags.Ephemeral
@@ -74,8 +74,8 @@ export const giveawayJoinHandler = {
                 return interaction.reply({
                     embeds: [
                         errorEmbed(
-                            'Already Entered',
-                            'You have already entered this giveaway! 🎉'
+                            'Đã nhập',
+                            'Bạn đã nhập thông tin giveaway! 🎉'
                         )
                     ],
                     flags: MessageFlags.Ephemeral
@@ -102,8 +102,8 @@ export const giveawayJoinHandler = {
             await interaction.reply({
                 embeds: [
                     successEmbed(
-                        'Success! You have entered the giveaway! 🎉',
-                        `Good luck! There are now ${participants.length} entry/entries.`
+                        'Success! Bạn Đã Tham gia giveaway! 🎉',
+                        `Good luck! Bây giờ có ${participants.length} entry/entries.`
                     )
                 ],
                 flags: MessageFlags.Ephemeral
@@ -187,7 +187,7 @@ export const giveawayEndHandler = {
             const updatedRow = createGiveawayButtons(true);
 
             await interaction.message.edit({
-                content: '🎉 **GIVEAWAY ENDED** 🎉',
+                content: '🎉 **GIVEAWAY KẾT THÚC** 🎉',
                 embeds: [updatedEmbed],
                 components: [updatedRow]
             });
@@ -204,7 +204,7 @@ export const giveawayEndHandler = {
                         userId: interaction.user.id,
                         fields: [
                             {
-                                name: '🎁 Prize',
+                                name: '🎁 Phần Thưởng',
                                 value: giveaway.prize || 'Mystery Prize!',
                                 inline: true
                             },
@@ -216,7 +216,7 @@ export const giveawayEndHandler = {
                                 inline: false
                             },
                             {
-                                name: '👥 Total Entries',
+                                name: '👥 Số Người',
                                 value: participants.length.toString(),
                                 inline: true
                             }
@@ -230,8 +230,8 @@ export const giveawayEndHandler = {
             await interaction.reply({
                 embeds: [
                     successEmbed(
-                        `Giveaway Ended ✅`,
-                        `The giveaway has been ended and ${winners.length} winner(s) have been selected!`
+                        `Giveaway Kết Thúc ✅`,
+                        ` giveaway đã kết thúc và ${winners.length} winner(s) đã được chọn!`
                     )
                 ],
                 flags: MessageFlags.Ephemeral
@@ -340,7 +340,7 @@ export const giveawayRerollHandler = {
                         userId: interaction.user.id,
                         fields: [
                             {
-                                name: '🎁 Prize',
+                                name: '🎁 Phần Thưởng',
                                 value: giveaway.prize || 'Mystery Prize!',
                                 inline: true
                             },
@@ -350,7 +350,7 @@ export const giveawayRerollHandler = {
                                 inline: false
                             },
                             {
-                                name: '👥 Total Entries',
+                                name: '👥 Số Người',
                                 value: participants.length.toString(),
                                 inline: true
                             }
@@ -412,7 +412,7 @@ export const giveawayViewHandler = {
                     embeds: [
                         errorEmbed(
                             'Giveaway Still Active',
-                            'This giveaway has not ended yet, so winners are not available.'
+                            'giveaway vẫn chưa kết thúc, vì vậy chưa có người thắng cuộc.'
                         )
                     ],
                     flags: MessageFlags.Ephemeral
